@@ -1,0 +1,17 @@
+<resources>
+
+    <string name="app_name">AndroidPokedex</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_pokedex">Pokedex</string>
+    <string name="buscar">buscar</string>
+    <string name="namepoke">Namepoke</string>
+    <string name="fotopoke">fotopoke</string>
+    <string name="altura">"Altura: "</string>
+    <string name="peso">"Peso: "</string>
+    <string name="ratio">Ratio de Captura</string>
+    <string name="ratioo">Ratio:</string>
+    <string name="n">n</string>
+    <string name="nn">n metros.</string>
+
+</resources>
