@@ -1,5 +1,5 @@
 # androidPokedex
-If you want to embed images, this is how you do it:
+Aplicación para Android 2.3 o superior. Base de datos con los 151 pokemon originales. Se puede realizar busquedas. La información mostrada es la descripción de la Pokedex de los juegos originales Azul y Rojo, la altura, el peso y el ratio de captura.
 
 
 
