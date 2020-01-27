@@ -1,4 +1,5 @@
 # androidPokedex
 If you want to embed images, this is how you do it:
 
-![Image of androidPokedex](https://github.com/salinasdev/androidPokedex/blob/master/images/1.png =250x250)
+![Image of androidPokedex](https://github.com/salinasdev/androidPokedex/blob/master/images/1.png){:height="50%" width="50%"}
+
