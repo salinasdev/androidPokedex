@@ -1,3 +1,5 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/salinasdev/androidPokedex/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/salinasdev/androidPokedex/tree/master)
+
 # androidPokedex
 Aplicación para Android 2.3 o superior. Base de datos con los 151 pokemon originales. Se puede realizar busquedas. La información mostrada es la descripción de la Pokedex de los juegos originales Azul y Rojo, la altura, el peso y el ratio de captura.
 
