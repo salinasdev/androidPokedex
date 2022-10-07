@@ -29,3 +29,4 @@ Aplicación para Android 2.3 o superior. Base de datos con los 151 pokemon origi
 </tr>
 </table>
 
+[![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
