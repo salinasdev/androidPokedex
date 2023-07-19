@@ -22,7 +22,11 @@ Aplicación para Android 2.3 o superior. Base de datos con los 151 pokemon origi
 ## Imágenes:
 <table border="0" cellpadding="0" cellspacing="0" width="100">
 <tr>
-<td><img src="https://github.com/salinasdev/pokedex-lit/blob/master/images/1.png" width="220" height="356"></td>
+<td><img src="https://github.com/salinasdev/androidPokedex/blob/master/images/1.png" width="220" height="356"></td>
+  <td><img src="https://github.com/salinasdev/androidPokedex/blob/master/images/2.png" width="220" height="356"></td>
+  <td><img src="https://github.com/salinasdev/androidPokedex/blob/master/images/3.png" width="220" height="356"></td>
+  <td><img src="https://github.com/salinasdev/androidPokedex/blob/master/images/4.png" width="220" height="356"></td>
+  <td><img src="https://github.com/salinasdev/androidPokedex/blob/master/images/5.png" width="220" height="356"></td>
 </tr>
 </table>
 
