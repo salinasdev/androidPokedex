@@ -1,9 +1,9 @@
 <resources>
 
-    <string name="app_name">AndroidPokedex</string>
+    <string name="app_name">Pokédex</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_pokedex">Pokedex</string>
+    <string name="title_activity_pokedex">Pokédex</string>
     <string name="buscar">buscar</string>
     <string name="namepoke">Namepoke</string>
     <string name="fotopoke">fotopoke</string>
@@ -14,4 +14,39 @@
     <string name="n">n</string>
     <string name="nn">n metros.</string>
 
+    <string name="catalogue_subtitle">Los 151 de Kanto, siempre contigo</string>
+    <string name="search_hint">Buscar por nombre</string>
+    <string name="search_description">Buscar Pokémon cuyo nombre empiece por el texto escrito</string>
+    <string name="search_help">Escribe el inicio de un nombre para filtrar.</string>
+    <string name="clear_search">Borrar búsqueda</string>
+    <string name="loading_list">Buscando Pokémon…</string>
+    <string name="loading_details">Cargando ficha…</string>
+    <string name="no_results">No hay coincidencias. Prueba otro inicio de nombre o borra la búsqueda.</string>
+    <string name="list_error">No se pudo cargar la Pokédex. Vuelve a intentarlo.</string>
+    <string name="detail_error">No se pudo cargar esta ficha. Vuelve a intentarlo.</string>
+    <string name="unavailable">Catálogo no disponible</string>
+    <string name="retry">Reintentar</string>
+    <string name="invalid_pokemon">Este Pokémon no existe o su identificador no es válido.</string>
+    <string name="pokemon_number">N.º %1$03d</string>
+    <string name="open_pokemon">Ver ficha del Pokémon número %1$d, %2$s</string>
+    <string name="sprite_description">Imagen de %1$s</string>
+    <string name="sound_description">Escuchar el sonido de %1$s</string>
+    <string name="play_sound">Escuchar sonido</string>
+    <string name="playing_sound">Reproduciendo sonido…</string>
+    <string name="sound_unavailable">Sonido no disponible</string>
+    <string name="sound_error">No se pudo reproducir el sonido. Puedes volver a intentarlo.</string>
+    <string name="back">Volver</string>
+    <string name="detail_title">Ficha Pokémon</string>
+    <string name="about_pokemon">Acerca de este Pokémon</string>
+    <string name="physical_data">Datos del Pokémon</string>
+    <string name="height_label">Altura</string>
+    <string name="weight_label">Peso</string>
+    <string name="capture_label">Ratio de captura</string>
+    <string name="height_value">%1$.1f m</string>
+    <string name="weight_value">%1$.1f kg</string>
+    <string name="capture_value">%1$d / 255</string>
+    <plurals name="result_count">
+        <item quantity="one">%d Pokémon encontrado</item>
+        <item quantity="other">%d Pokémon encontrados</item>
+    </plurals>
 </resources>

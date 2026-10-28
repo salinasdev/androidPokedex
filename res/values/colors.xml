@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pokedex_red">#B32635</color>
+    <color name="pokedex_red_dark">#821B29</color>
+    <color name="on_pokedex_red">#FFFFFF</color>
+    <color name="sprite_backdrop">#EEF2F4</color>
+    <color name="sprite_outline">#D3DBDF</color>
+    <color name="icon_ink">#34454D</color>
+</resources>

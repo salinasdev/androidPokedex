@@ -1,47 +1,140 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:contentDescription="@string/buscar" >
+    android:orientation="vertical"
+    android:focusableInTouchMode="true">
 
     <LinearLayout
-        android:id="@+id/LYMenu"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" >
-
-        <EditText
-            android:id="@+id/cjBuscar"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" >
-
-            <requestFocus />
-        </EditText>
-
+        android:gravity="center_vertical"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp">
         <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:contentDescription="@string/buscar"
-            android:src="@drawable/buscar" />
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:layout_marginEnd="12dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_pokeball" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/catalogue_title"
+                style="@style/SectionTitle"
+                android:text="@string/app_name"
+                android:textSize="30sp" />
+            <TextView
+                style="@style/BodyText"
+                android:text="@string/catalogue_subtitle"
+                android:textColor="?android:attr/textColorSecondary"
+                android:textSize="14sp" />
+        </LinearLayout>
     </LinearLayout>
 
-    <ScrollView
-        android:id="@+id/scroll"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@+id/LYMenu"
-        android:layout_centerHorizontal="true" >
-
-        <LinearLayout
-            android:id="@+id/LYLista"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/sprite_background"
+        android:gravity="center_vertical">
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="16dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_search" />
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:minHeight="56dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/search_hint"
+            android:importantForAutofill="no"
+            android:imeOptions="actionSearch|flagNoExtractUi"
+            android:inputType="textCapWords|textNoSuggestions"
+            android:singleLine="true"
+            android:saveEnabled="false"
+            android:padding="12dp"
+            android:textColor="@color/icon_ink"
+            android:textColorHint="@color/icon_ink"
+            android:textSize="16sp"
+            tools:targetApi="26" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/clear_search"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/clear_search"
+            android:padding="12dp"
+            android:src="@drawable/ic_close" />
+    </LinearLayout>
 
-        </LinearLayout>
-    </ScrollView>
+    <TextView
+        android:id="@+id/result_count"
+        style="@style/BodyText"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="8dp"
+        android:accessibilityLiveRegion="polite"
+        android:textColor="?android:attr/textColorSecondary"
+        android:textSize="14sp" />
 
-</RelativeLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/pokemon_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="16dp"
+            android:saveEnabled="false"
+            android:scrollbars="vertical" />
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/loading_list" />
+        <ScrollView
+            android:id="@+id/state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <TextView
+                    android:id="@+id/state_message"
+                    style="@style/BodyText"
+                    android:accessibilityLiveRegion="polite"
+                    android:gravity="center" />
+                <Button
+                    android:id="@+id/retry"
+                    style="@style/ActionButton"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/retry" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</LinearLayout>

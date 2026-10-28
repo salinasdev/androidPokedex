@@ -1,103 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
-
-    <TextView
-        android:id="@+id/tvNombre"
-        android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="15dp"
-        android:text="@string/namepoke"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <ImageView
-        android:id="@+id/ivFoto"
-        android:layout_width="175dp"
-        android:layout_height="175dp"
-        android:layout_below="@+id/tvNombre"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/fotopoke"
-        android:src="@drawable/p1" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/ivFoto"
-        android:layout_below="@+id/ivFoto"
-        android:layout_marginTop="16dp"
-        android:text="@string/altura"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/textView1"
-        android:layout_below="@+id/textView1"
-        android:layout_marginTop="16dp"
-        android:text="@string/peso"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/TextView02"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
-        android:layout_below="@+id/TextView01"
-        android:layout_marginTop="18dp"
-        android:text="@string/ratioo"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvAltura"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/textView1"
-        android:layout_toRightOf="@+id/textView1"
-        android:text="@string/nn"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvPeso"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/TextView02"
-        android:layout_alignLeft="@+id/tvAltura"
-        android:text="@string/nn"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvRatio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/TextView02"
-        android:layout_alignBottom="@+id/TextView02"
-        android:layout_alignLeft="@+id/tvPeso"
-        android:text="@string/nn"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/tvDescri"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/TextView02"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="Small Textaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="15dp" />
-
-    <ImageView
-        android:id="@+id/bSonido"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/sonido" />
-
-</RelativeLayout>
+        android:gravity="center_vertical"
+        android:paddingStart="8dp"
+        android:paddingEnd="16dp">
+        <Button
+            android:id="@+id/back"
+            style="@style/Widget.AppCompat.Button.Borderless"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="64dp"
+            android:minHeight="48dp"
+            android:contentDescription="@string/back"
+            android:text="@string/back"
+            android:textAllCaps="false"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/detail_title"
+            style="@style/SectionTitle"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_marginStart="12dp"
+            android:text="@string/detail_title" />
+    </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+        <ScrollView
+            android:id="@+id/detail_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:fillViewport="true"
+            android:saveEnabled="false"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <TextView
+                    android:id="@+id/pokemon_number"
+                    style="@style/BodyText"
+                    android:gravity="center"
+                    android:textColor="?android:attr/textColorSecondary" />
+                <TextView
+                    android:id="@+id/pokemon_name"
+                    style="@style/SectionTitle"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center"
+                    android:textSize="32sp" />
+                <ImageView
+                    android:id="@+id/sprite"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/sprite_background"
+                    android:padding="24dp"
+                    android:scaleType="fitCenter" />
+                <Button
+                    android:id="@+id/play_sound"
+                    style="@style/ActionButton"
+                    android:layout_marginTop="16dp"
+                    android:accessibilityLiveRegion="polite"
+                    android:text="@string/play_sound" />
+                <TextView
+                    android:id="@+id/physical_data_title"
+                    style="@style/SectionTitle"
+                    android:layout_marginTop="24dp"
+                    android:text="@string/physical_data" />
+                <TextView
+                    style="@style/MetricLabel"
+                    android:labelFor="@id/height"
+                    android:text="@string/height_label" />
+                <TextView android:id="@+id/height" style="@style/MetricValue" />
+                <TextView
+                    style="@style/MetricLabel"
+                    android:labelFor="@id/weight"
+                    android:text="@string/weight_label" />
+                <TextView android:id="@+id/weight" style="@style/MetricValue" />
+                <TextView
+                    style="@style/MetricLabel"
+                    android:labelFor="@id/capture"
+                    android:text="@string/capture_label" />
+                <TextView android:id="@+id/capture" style="@style/MetricValue" />
+                <TextView
+                    android:id="@+id/about_pokemon_title"
+                    style="@style/SectionTitle"
+                    android:layout_marginTop="28dp"
+                    android:text="@string/about_pokemon" />
+                <TextView
+                    android:id="@+id/description"
+                    style="@style/BodyText"
+                    android:layout_marginTop="12dp"
+                    android:lineSpacingExtra="6dp"
+                    android:textIsSelectable="true" />
+            </LinearLayout>
+        </ScrollView>
+        <ProgressBar
+            android:id="@+id/loading"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/loading_details" />
+        <ScrollView
+            android:id="@+id/state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:visibility="gone">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <TextView
+                    style="@style/BodyText"
+                    android:accessibilityLiveRegion="polite"
+                    android:gravity="center"
+                    android:text="@string/detail_error" />
+                <Button
+                    android:id="@+id/retry"
+                    style="@style/ActionButton"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/retry" />
+            </LinearLayout>
+        </ScrollView>
+    </FrameLayout>
+</LinearLayout>

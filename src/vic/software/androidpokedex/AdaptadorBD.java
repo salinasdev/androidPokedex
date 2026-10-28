@@ -1,87 +1,140 @@
 package vic.software.androidpokedex;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteException;
+import android.system.ErrnoException;
+import android.system.Os;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
-public class AdaptadorBD {
-	private static final String BASEDATOS = "S2DAMBD";
-	private static final String TABLA = "pokemon";
-	private static final int VERSION = 1;
-	private static final String SQLCREAR1 = "create table pokemon (id integer primary key autoincrement, "
-			+ "nombre text not null, tipo text not null, est_evo integer not null);";
-	private static final String SQLCREAR2= "CREATE TABLE detalles (id_poke INTEGER PRIMARY KEY, descripcion TEXT, ratio NUMERIC, altura NUMERIC, peso NUMERIC);";
-
+/** Read-only bundled catalogue. Call from a worker thread and close after use. */
+public final class AdaptadorBD implements AutoCloseable {
+	// A separate versioned catalogue leaves the legacy S2DAMBD database untouched.
+	static final String DATABASE_NAME = "pokedex-catalog-v1.db";
+	private static final Object IMPORT_LOCK = new Object();
 	private final Context context;
-	private DatabaseHelper DBHelper;
-	private SQLiteDatabase bd;
+	private SQLiteDatabase database;
 
-	private static class DatabaseHelper extends SQLiteOpenHelper {
-		DatabaseHelper(Context context) {
-			super(context, BASEDATOS, null, VERSION);
-		}
+	public AdaptadorBD(Context context) {
+		this.context = context.getApplicationContext();
+	}
 
-		@Override
-		public void onCreate(SQLiteDatabase db) {
+	private SQLiteDatabase open() {
+		if (database != null && database.isOpen()) return database;
+		synchronized (IMPORT_LOCK) {
+			File destination = context.getDatabasePath(DATABASE_NAME);
+			if (!destination.exists()) importCatalogue(destination);
+			database = SQLiteDatabase.openDatabase(destination.getPath(), null,
+					SQLiteDatabase.OPEN_READONLY);
 			try {
-				db.execSQL(SQLCREAR1);
-				db.execSQL(SQLCREAR2);
-			} catch (SQLException e) {
-				e.printStackTrace();
+				validate(database);
+			} catch (RuntimeException exception) {
+				database.close();
+				database = null;
+				throw exception;
 			}
 		}
+		return database;
+	}
 
-		@Override
-		public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-			db.execSQL("DROP TABLE IF EXISTS POKEMON");
-			db.execSQL("DROP TABLE IF EXISTS DETALLES");
-			onCreate(db);
+	private void importCatalogue(File destination) {
+		File directory = destination.getParentFile();
+		if (directory == null || (!directory.isDirectory() && !directory.mkdirs())) {
+			throw new SQLiteException("Cannot create catalogue directory");
+		}
+		File temporary = null;
+		try {
+			temporary = File.createTempFile("pokedex-", ".tmp", directory);
+			try (InputStream input = context.getAssets().open("DBPOK");
+				 FileOutputStream output = new FileOutputStream(temporary)) {
+				byte[] buffer = new byte[8192];
+				int length;
+				while ((length = input.read(buffer)) != -1) {
+					output.write(buffer, 0, length);
+				}
+				output.getFD().sync();
+			}
+			try (SQLiteDatabase candidate = SQLiteDatabase.openDatabase(temporary.getPath(),
+					null, SQLiteDatabase.OPEN_READONLY)) {
+				validate(candidate);
+			}
+			// Rename within the same directory: readers never see a partially copied DB.
+			Os.rename(temporary.getPath(), destination.getPath());
+		} catch (IOException | ErrnoException exception) {
+			throw new SQLiteException("Cannot import Pokemon catalogue", exception);
+		} finally {
+			if (temporary != null && temporary.exists() && !temporary.delete()) {
+				temporary.deleteOnExit();
+			}
 		}
 	}
 
-	public AdaptadorBD(Context ctx) {
-		this.context = ctx;
-		DBHelper = new DatabaseHelper(context);
+	private static void validate(SQLiteDatabase db) {
+		// The original asset has user_version=0; it is not a Room schema.
+		if (db.getVersion() != 0) throw new SQLiteException("Unexpected catalogue version");
+		try (Cursor check = db.rawQuery("PRAGMA quick_check", null)) {
+			if (!check.moveToFirst() || !"ok".equals(check.getString(0))) {
+				throw new SQLiteException("Invalid catalogue integrity");
+			}
+		}
+		try (Cursor rows = db.rawQuery("SELECT COUNT(*), MIN(id), MAX(id) "
+				+ "FROM pokemon JOIN detalles ON pokemon.id = detalles.id_poke "
+				+ "WHERE nombre IS NOT NULL AND descripcion IS NOT NULL "
+				+ "AND altura IS NOT NULL AND peso IS NOT NULL AND ratio IS NOT NULL", null)) {
+			if (!rows.moveToFirst() || rows.getInt(0) != 151
+					|| rows.getInt(1) != 1 || rows.getInt(2) != 151) {
+				throw new SQLiteException("Incomplete Pokemon catalogue");
+			}
+		}
 	}
 
-	// ---abrir la base de datos---
-	public void abrirW() throws SQLException {
-		bd = DBHelper.getWritableDatabase();
-	}
-	public void abrirR() throws SQLException {
-		bd = DBHelper.getReadableDatabase();
+	public List<Pokemon> buscarPokemon(String nombre) {
+		List<Pokemon> result = new ArrayList<>();
+		try (Cursor cursor = open().rawQuery(
+				"SELECT id, nombre FROM pokemon WHERE nombre LIKE ? ESCAPE '\\' ORDER BY id",
+				new String[]{SearchFilter.prefix(nombre)})) {
+			while (cursor.moveToNext()) {
+				Pokemon pokemon = new Pokemon();
+				pokemon.setId(cursor.getLong(0));
+				pokemon.setNombre(cursor.getString(1));
+				result.add(pokemon);
+			}
+		}
+		return result;
 	}
 
-	// ---cerrar la base de datos---
+	public Pokemon buscarDetallesPoke(long id) {
+		if (id < 1 || id > 151) return null;
+		try (Cursor cursor = open().rawQuery(
+				"SELECT id, nombre, altura, peso, ratio, descripcion FROM pokemon "
+						+ "JOIN detalles ON pokemon.id = detalles.id_poke WHERE id = ?",
+				new String[]{Long.toString(id)})) {
+			if (!cursor.moveToFirst()) return null;
+			Pokemon pokemon = new Pokemon();
+			pokemon.setId(cursor.getLong(0));
+			pokemon.setNombre(cursor.getString(1));
+			pokemon.setAltura(cursor.getDouble(2));
+			pokemon.setPeso(cursor.getDouble(3));
+			pokemon.setRatio(cursor.getInt(4));
+			pokemon.setDescri(cursor.getString(5));
+			return pokemon;
+		}
+	}
+
 	public void cerrar() {
-		DBHelper.close();
+		close();
 	}
 
-	public Cursor buscarDetallesPoke(long id) throws SQLException {
-		Cursor mCursor = bd.rawQuery("select id, nombre, altura, peso, ratio, descripcion from pokemon, detalles where id=id_poke and id="+id,null);
-		if (mCursor != null) {
-			mCursor.moveToFirst();
+	@Override public void close() {
+		if (database != null) {
+			database.close();
+			database = null;
 		}
-		return mCursor;
 	}
-	public Cursor buscarPokemon(String nombre) throws SQLException {
-		Cursor mCursor = bd.rawQuery("select * from "+TABLA+" where nombre like '"+nombre+"%'",null);
-		if (mCursor != null) {
-			mCursor.moveToFirst();
-		}
-		return mCursor;
-	}
-	public long insertarPokemon() {
-		ContentValues valores = new ContentValues();
-		valores.put("id",0);
-		valores.put("nombre", "kk");
-		valores.put("tipo", "kk");
-		valores.put("est_evo",0);
-		return bd.insert(TABLA, null, valores);
-	}
-	
-
 }

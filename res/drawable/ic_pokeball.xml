@@ -1,0 +1,8 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp" android:height="48dp" android:viewportWidth="48" android:viewportHeight="48">
+    <path android:fillColor="@color/pokedex_red" android:pathData="M24,4A20,20 0,0 1,44 24H4A20,20 0,0 1,24 4" />
+    <path android:fillColor="#FFFFFF" android:pathData="M4,24H44A20,20 0,0 1,4 24" />
+    <path android:fillColor="@color/icon_ink" android:pathData="M4,22H44V26H4Z" />
+    <path android:fillColor="#FFFFFF" android:strokeColor="@color/icon_ink" android:strokeWidth="3"
+        android:pathData="M30,24A6,6 0,1 1,18 24A6,6 0,1 1,30 24" />
+</vector>
