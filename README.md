@@ -111,4 +111,15 @@ con `bundleRelease` y revisar sus requisitos vigentes.
 </tr>
 </table>
 
+## Imágenes de la versión 2.0:
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+  <td><img src="images/1_v2.png" alt="Captura 1 de la Pokédex versión 2.0" width="220"></td>
+  <td><img src="images/2_v2.png" alt="Captura 2 de la Pokédex versión 2.0" width="220"></td>
+  <td><img src="images/3_v2.png" alt="Captura 3 de la Pokédex versión 2.0" width="220"></td>
+  <td><img src="images/4_v2.png" alt="Captura 4 de la Pokédex versión 2.0" width="220"></td>
+  <td><img src="images/5_v2.png" alt="Captura 5 de la Pokédex versión 2.0" width="220"></td>
+</tr>
+</table>
+
 [![forthebadge](https://forthebadge.com/images/badges/made-with-java.svg)](https://forthebadge.com)
